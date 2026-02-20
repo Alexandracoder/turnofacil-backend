@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import lombok.ToString;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -13,28 +13,30 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Shift{
+public class Shift {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private LocalDateTime starTime;
+    private LocalDateTime startTime;
 
     private LocalDateTime endTime;
 
-    private long totalHours;
+    private Double totalHours;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @ToString.Exclude
     private User employee;
 
     @PrePersist
     @PreUpdate
     public void calculateShiftDuration() {
-        if (starTime != null && endTime != null) {
-            Duration duration = Duration.between(starTime, endTime);
-            this.totalHours = duration.toMinutes() / 60 - 0;
+        if (startTime != null && endTime != null) {
+            Duration duration = Duration.between(startTime, endTime);
+            this.totalHours = duration.toMinutes() / 60.0;
         }
-        }
+    }
 }
