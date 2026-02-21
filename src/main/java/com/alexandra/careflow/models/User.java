@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
 import java.util.List;
 
 @Entity
@@ -24,7 +25,13 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private String fullName;
+
+    @Column(unique = true)
+    private String email;
+
+    private String phone;
 
     @Enumerated(EnumType.STRING)
     private Role role;
