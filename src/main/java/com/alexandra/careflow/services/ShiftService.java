@@ -73,13 +73,17 @@ public class ShiftService {
         User employee = userRepository.findById(dto.employeeId())
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + dto.employeeId()));
 
+        if (!employee.isActive()) {
+            throw new BadRequestException("Cannot assign a shift to an inactive employee");
+        }
 
-        Shift shift = new Shift();
-        shift.setStartTime(dto.startTime());
-        shift.setEndTime(dto.endTime());
-        shift.setEmployee(employee);
 
-        Shift savedShift = shiftRepository.save(shift);
-        return convertToDTO(savedShift);
+            Shift shift = new Shift();
+            shift.setStartTime(dto.startTime());
+            shift.setEndTime(dto.endTime());
+            shift.setEmployee(employee);
+
+            Shift savedShift = shiftRepository.save(shift);
+            return convertToDTO(savedShift);
+        }
     }
-}
