@@ -4,6 +4,7 @@ import com.alexandra.careflow.dtos.ShiftRequestDTO;
 import com.alexandra.careflow.dtos.ShiftResponseDTO;
 import com.alexandra.careflow.models.Shift;
 import com.alexandra.careflow.services.ShiftService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class ShiftController {
     }
 
     @PostMapping
-    public ResponseEntity<ShiftResponseDTO> create(@RequestBody ShiftRequestDTO shiftRequest) {
+    public ResponseEntity<ShiftResponseDTO> create(@Valid @RequestBody ShiftRequestDTO shiftRequest) {
         ShiftResponseDTO savedShift = shiftService.createShift(shiftRequest);
         return new ResponseEntity<>(savedShift, HttpStatus.CREATED);
     }

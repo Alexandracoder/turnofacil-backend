@@ -2,7 +2,10 @@ package com.alexandra.careflow.services;
 
 import com.alexandra.careflow.dtos.ShiftRequestDTO;
 import com.alexandra.careflow.dtos.ShiftResponseDTO;
+import com.alexandra.careflow.exceptions.BadRequestException;
+import com.alexandra.careflow.exceptions.ResourceNotFoundException;
 import com.alexandra.careflow.models.Shift;
+import com.alexandra.careflow.models.User;
 import com.alexandra.careflow.repositories.ShiftRepository;
 import com.alexandra.careflow.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +46,7 @@ public class ShiftService {
     @Transactional
     public ShiftResponseDTO save(Shift shift) {
         if (shift.getEndTime().isBefore(shift.getStartTime())) {
-            throw new IllegalArgumentException("The shift end time must be later than the start time");
+            throw new BadRequestException("The shift end time must be later than the start time");
         }
         Shift savedShift = shiftRepository.save(shift);
         return convertToDTO(savedShift);
@@ -63,12 +66,12 @@ public class ShiftService {
     public ShiftResponseDTO createShift(ShiftRequestDTO dto) {
 
         if (dto.endTime().isBefore(dto.startTime())) {
-            throw new IllegalArgumentException("The shift end time must be later than the start time");
+            throw new BadRequestException("The shift end time must be later than the start time");
         }
 
 
-        var employee = userRepository.findById(dto.employeeId())
-                .orElseThrow(() -> new RuntimeException("Employee not found with id: " + dto.employeeId()));
+        User employee = userRepository.findById(dto.employeeId())
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + dto.employeeId()));
 
 
         Shift shift = new Shift();
