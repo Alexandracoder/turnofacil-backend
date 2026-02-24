@@ -38,41 +38,10 @@ public class ShiftService {
     }
 
     @Transactional
-    public ShiftResponseDTO createShift(Shift shift) {
-        Shift savedShift = shiftRepository.save(shift);
-        return convertToDTO(savedShift);
-    }
-
-    @Transactional
-    public ShiftResponseDTO save(Shift shift) {
-        if (shift.getEndTime().isBefore(shift.getStartTime())) {
-            throw new BadRequestException("The shift end time must be later than the start time");
-        }
-        Shift savedShift = shiftRepository.save(shift);
-        return convertToDTO(savedShift);
-    }
-
-    private ShiftResponseDTO convertToDTO(Shift shift) {
-        return new ShiftResponseDTO(
-                shift.getId(),
-                shift.getStartTime(),
-                shift.getEndTime(),
-                (shift.getEmployee() != null) ? shift.getEmployee().getId() : null,
-                (shift.getEmployee() != null) ? shift.getEmployee().getFullName(): null,
-                (shift.getEmployee() != null) ? shift.getEmployee().getRole().toString() : null
-        );
-
-
-
-    }
-
-    @Transactional
     public ShiftResponseDTO createShift(ShiftRequestDTO dto) {
-
         if (dto.endTime().isBefore(dto.startTime())) {
             throw new BadRequestException("The shift end time must be later than the start time");
         }
-
 
         User employee = userRepository.findById(dto.employeeId())
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + dto.employeeId()));
@@ -81,13 +50,33 @@ public class ShiftService {
             throw new BadRequestException("Cannot assign a shift to an inactive employee");
         }
 
+        Shift shift = new Shift();
+        shift.setStartTime(dto.startTime());
+        shift.setEndTime(dto.endTime());
+        shift.setEmployee(employee);
 
-            Shift shift = new Shift();
-            shift.setStartTime(dto.startTime());
-            shift.setEndTime(dto.endTime());
-            shift.setEmployee(employee);
+        Shift savedShift = shiftRepository.save(shift);
 
-            Shift savedShift = shiftRepository.save(shift);
-            return convertToDTO(savedShift);
-        }
+        return convertToDTO(savedShift);
     }
+
+    @Transactional
+    public void deleteShift(Long id) {
+        if (!shiftRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Shift not found with id: " + id);
+        }
+        shiftRepository.deleteById(id);
+    }
+
+    private ShiftResponseDTO convertToDTO(Shift shift) {
+        return new ShiftResponseDTO(
+                shift.getId(),
+                shift.getStartTime(),
+                shift.getEndTime(),
+                shift.getTotalHours(),
+                (shift.getEmployee() != null) ? shift.getEmployee().getId() : null,
+                (shift.getEmployee() != null) ? shift.getEmployee().getFullName() : null,
+                (shift.getEmployee() != null) ? shift.getEmployee().getRole().toString() : null
+        );
+    }
+}

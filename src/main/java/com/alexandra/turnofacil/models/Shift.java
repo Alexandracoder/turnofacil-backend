@@ -35,6 +35,9 @@ public class Shift {
     @PreUpdate
     public void calculateShiftDuration() {
         if (startTime != null && endTime != null) {
+            if (endTime.isBefore(startTime)) {
+                throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la de inicio");
+            }
             Duration duration = Duration.between(startTime, endTime);
             this.totalHours = duration.toMinutes() / 60.0;
         }
