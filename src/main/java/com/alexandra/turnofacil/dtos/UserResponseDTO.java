@@ -1,6 +1,6 @@
-package com.alexandra.careflow.dtos;
+package com.alexandra.turnofacil.dtos;
 
-import com.alexandra.careflow.models.Role;
+import com.alexandra.turnofacil.models.Role;
 
 public record UserResponseDTO(
     Long id,

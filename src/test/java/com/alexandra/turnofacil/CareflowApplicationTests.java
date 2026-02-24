@@ -1,4 +1,4 @@
-package com.alexandra.careflow;
+package com.alexandra.turnofacil;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

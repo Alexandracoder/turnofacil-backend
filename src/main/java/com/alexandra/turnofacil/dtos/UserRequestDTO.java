@@ -1,6 +1,6 @@
-package com.alexandra.careflow.dtos;
+package com.alexandra.turnofacil.dtos;
 
-import com.alexandra.careflow.models.Role;
+import com.alexandra.turnofacil.models.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
