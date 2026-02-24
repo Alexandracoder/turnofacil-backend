@@ -24,7 +24,7 @@ public class Config {
                 User admin = new User();
                 admin.setUsername("alexandra_admin");
                 admin.setPassword("1234");
-                admin.setFullName("Alexandra CareFlow");
+                admin.setFullName("Alexandra Rojas");
                 admin.setRole(Role.ADMIN);
 
                 userRepository.save(admin);
