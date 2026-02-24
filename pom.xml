@@ -10,9 +10,9 @@
     </parent>
 
     <groupId>com.alexandra</groupId>
-    <artifactId>careflow</artifactId>
+    <artifactId>turnofacil</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>careflow</name>
+    <name>turnofacil</name>
     <description>App for care management solutions</description>
 
     <properties>
@@ -59,6 +59,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.8.3</version> </dependency>
     </dependencies>
 
     <build>
