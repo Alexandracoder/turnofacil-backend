@@ -10,9 +10,9 @@
     </parent>
 
     <groupId>com.alexandra</groupId>
-    <artifactId>careflow</artifactId>
+    <artifactId>turnofacil</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>careflow</name>
+    <name>turnofacil</name>
     <description>App for care management solutions</description>
 
     <properties>
